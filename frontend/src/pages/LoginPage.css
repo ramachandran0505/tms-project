@@ -1,0 +1,220 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 40px;
+  padding: 3.5rem;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  animation: cardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.login-card h1 {
+  font-size: 2.2rem;
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.login-card .subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-5px);
+  }
+
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
+  margin-left: 0.2rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.form-group input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  color: #fff;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 20px rgba(var(--theme-color-rgb), 0.15);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+  box-shadow: none;
+}
+
+.password-toggle:hover {
+  color: #fff;
+  transform: none;
+  box-shadow: none;
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1.1rem;
+  border-radius: 18px;
+  background: var(--primary-gradient);
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(var(--theme-color-rgb), 0.3);
+  filter: brightness(1.1);
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.login-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem;
+  z-index: 10;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+@media (max-width: 480px) {
+  .login-navbar {
+    padding: 1rem;
+  }
+
+  .login-card {
+    padding: 2.5rem 1.5rem;
+    border-radius: 30px;
+  }
+
+  .login-card h1 {
+    font-size: 1.8rem;
+  }
+
+  .login-container {
+    padding: 1rem;
+  }
+}

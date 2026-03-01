@@ -1,0 +1,304 @@
+.home-page {
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 6rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.hero-section::before {
+  display: none;
+}
+
+.brand-badge {
+  display: inline-flex;
+  padding: 0.5rem 1.2rem;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 999px;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  animation: slideInDown 0.8s ease;
+}
+
+.home-title {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -2px;
+}
+
+.home-title span {
+  display: block;
+}
+
+.home-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* Welcome Card */
+.user-welcome-card {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-soft);
+  border-radius: 30px;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 1s ease;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.avatar-placeholder {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  color: #1a1a1a;
+  font-weight: 900;
+  box-shadow: none;
+  transform: rotate(-3deg);
+}
+
+.user-details h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #fff, #aaa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.role-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.role-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+/* Admin Dashboard Section */
+.dashboard-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section-label {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.quick-links-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.quick-link-card {
+  padding: 2.5rem 1.5rem;
+  background: rgba(40, 40, 40, 0.3);
+  border: 1px solid var(--border-soft);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.quick-link-card:hover {
+  background: rgba(245, 158, 11, 0.05);
+  border-color: var(--primary);
+  transform: translateY(-8px);
+  box-shadow: none;
+}
+
+.link-icon {
+  font-size: 2.5rem;
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.quick-link-card:hover .link-icon {
+  background: var(--primary);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.link-label {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+/* Login CTA */
+.login-message {
+  background: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(20px);
+  padding: 5rem;
+  border-radius: 30px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  border: 1px solid var(--border-soft);
+}
+
+.login-btn-large {
+  padding: 1rem 3rem;
+  font-size: 1.25rem;
+  border-radius: 15px;
+  background: var(--primary);
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: 800;
+  box-shadow: none;
+  transition: var(--transition);
+}
+
+.login-btn-large:hover {
+  background: var(--primary-hover);
+  transform: translateY(-3px);
+  box-shadow: none;
+}
+
+/* Animations */
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    padding-top: 8rem;
+    gap: 2rem;
+  }
+
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+
+  .user-welcome-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .user-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .avatar-placeholder {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .quick-links-container {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+
+  .login-message {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-title {
+    font-size: 2.2rem;
+  }
+
+  .quick-links-container {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-link-card {
+    flex-direction: row;
+    padding: 1.5rem;
+    gap: 1.25rem;
+    text-align: left;
+  }
+
+  .link-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .link-label {
+    font-size: 1rem;
+  }
+}
