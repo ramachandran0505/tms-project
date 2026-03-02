@@ -6,6 +6,7 @@ import "./Navbar-simple.css";
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,9 +19,19 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+    setIsMenuOpen(false); // Close mobile drawer if open
+  };
+
+  const confirmLogout = () => {
     logout();
     navigate("/login");
+    setShowLogoutModal(false);
+  };
+
+  const cancelLogout = () => {
+    setShowLogoutModal(false);
   };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -114,7 +125,7 @@ const Navbar = () => {
                 )}
 
                 {/* Mobile Logout (Only visible on mobile) */}
-                <button onClick={handleLogout} className="mobile-logout-btn">
+                <button onClick={handleLogoutClick} className="mobile-logout-btn">
                   <span className="icon">⏻</span>
                   <span className="label">Terminate</span>
                 </button>
@@ -146,7 +157,7 @@ const Navbar = () => {
                 </div>
               </Link>
               <button
-                onClick={handleLogout}
+                onClick={handleLogoutClick}
                 className="session-terminate-v5"
                 title="Terminate Session"
               >
@@ -167,6 +178,25 @@ const Navbar = () => {
 
       {/* Mobile Drawer Overlay */}
       <div className={`mobile-overlay ${isMenuOpen ? "active" : ""}`} onClick={() => setIsMenuOpen(false)}></div>
+
+      {/* Logout Confirmation Modal */}
+      {showLogoutModal && (
+        <div className="logout-modal-overlay">
+          <div className="logout-modal-box">
+            <div className="logout-modal-icon">⏻</div>
+            <h3 className="logout-modal-title">Terminate Session?</h3>
+            <p className="logout-modal-text">Are you sure you want to log out of the system?</p>
+            <div className="logout-modal-actions">
+              <button className="logout-modal-btn cancel" onClick={cancelLogout}>
+                Cancel
+              </button>
+              <button className="logout-modal-btn confirm" onClick={confirmLogout}>
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
