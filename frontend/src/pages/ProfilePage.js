@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { authService } from "../services/api";
+import { authService, complaintService } from "../services/api";
 import { ThemeContext } from "../context/ThemeContext";
 import "./ProfilePage.css";
 
@@ -112,10 +112,30 @@ const ProfilePage = () => {
         }
     };
 
+    const [dashboardStats, setDashboardStats] = useState({ total: 0, closed: 0, pending: 0 });
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await complaintService.getStats();
+                setDashboardStats({
+                    total: res.data.total || 0,
+                    closed: res.data.closed || 0,
+                    pending: (res.data.pending || 0) + (res.data.assigned || 0)
+                });
+            } catch (err) {
+                console.error("Failed to fetch user stats", err);
+            }
+        };
+        if (user) {
+            fetchStats();
+        }
+    }, [user]);
+
     const stats = [
-        { label: "Raised", value: "24", icon: "🎫" },
-        { label: "Resolved", value: "18", icon: "✨" },
-        { label: "Pending", value: "06", icon: "⏳" }
+        { label: "Raised", value: dashboardStats.total.toString().padStart(2, '0'), icon: "🎫" },
+        { label: "Resolved", value: dashboardStats.closed.toString().padStart(2, '0'), icon: "✨" },
+        { label: "Pending", value: dashboardStats.pending.toString().padStart(2, '0'), icon: "⏳" }
     ];
 
     return (
@@ -204,10 +224,6 @@ const ProfilePage = () => {
                                 <div className="content-inner-card">
                                     <div className="form-header-premium">
                                         <h3>Identity Profile</h3>
-                                        <div className="completeness-meter">
-                                            <div className="meter-label">Completeness <span>85%</span></div>
-                                            <div className="meter-bar"><div className="meter-fill" style={{ width: '85%' }}></div></div>
-                                        </div>
                                     </div>
 
                                     <div className="avatar-explorer">

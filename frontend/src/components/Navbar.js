@@ -61,7 +61,7 @@ const Navbar = () => {
             {isAuthenticated ? (
               <div className="flex-rail-horizontal">
                 {/* Mobile Profile View (Only visible on mobile) */}
-                <div className="mobile-profile-stub">
+                <Link to="/profile" className="mobile-profile-stub" onClick={() => setIsMenuOpen(false)}>
                   <div className="avatar-orb-v5">
                     {user?.profileImage ? <img src={user.profileImage} alt="User" /> : user?.username?.charAt(0).toUpperCase()}
                   </div>
@@ -69,7 +69,7 @@ const Navbar = () => {
                     <span className="alias">{user?.username}</span>
                     <span className="clearance">{user?.role}</span>
                   </div>
-                </div>
+                </Link>
 
                 <Link to="/complaints/new" className={isActive("/complaints/new")} onClick={() => setIsMenuOpen(false)}>
                   <span className="icon">✦</span>
