@@ -114,7 +114,7 @@ const Navbar = () => {
                 )}
 
                 {/* Mobile Logout (Only visible on mobile) */}
-                <button onClick={handleLogout} className="nav-link mobile-logout-btn">
+                <button onClick={handleLogout} className="mobile-logout-btn">
                   <span className="icon">⏻</span>
                   <span className="label">Terminate</span>
                 </button>
