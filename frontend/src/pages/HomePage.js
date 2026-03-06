@@ -7,11 +7,13 @@ const HomePage = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
 
   const adminLinks = [
+    { to: "/reports", label: "Reports", icon: "📊" },
     { to: "/departments", label: "Departments", icon: "🏢" },
-    { to: "/programmes", label: "Programmes", icon: "📚" },
     { to: "/blocks", label: "Blocks", icon: "🏗️" },
     { to: "/rooms", label: "Rooms", icon: "🚪" },
+    { to: "/roles", label: "Roles", icon: "🛡️" },
     { to: "/users", label: "Users", icon: "👥" },
+    { to: "/programmes", label: "Programmes", icon: "📚" },
     { to: "/complaints", label: "Tickets", icon: "🗂️" },
   ];
 

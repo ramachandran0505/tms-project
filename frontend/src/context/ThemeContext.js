@@ -32,16 +32,6 @@ export const themes = [
         bg: '#2c1f1b',
         card: '#3a2a24',
         sidebar: '#4a362e'
-    },
-    {
-        id: 'dark',
-        name: 'Midnight Dark',
-        color: '#94a3b8',
-        hover: '#f8fafc',
-        gradient: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)',
-        bg: '#020617',
-        card: '#0a0a0a',
-        sidebar: '#0f172a'
     }
 ];
 
@@ -51,7 +41,7 @@ export const ThemeProvider = ({ children }) => {
     });
 
     const applyTheme = useCallback((themeId) => {
-        const theme = themes.find(t => t.id === themeId) || themes[3];
+        const theme = themes.find(t => t.id === themeId) || themes[0];
 
         const root = document.documentElement;
         root.style.setProperty('--theme-color', theme.color);

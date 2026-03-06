@@ -75,10 +75,7 @@ export const userService = {
 };
 
 export const complaintService = {
-  create: (formData) =>
-    api.post("/complaints", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    }),
+  create: (formData) => api.post("/complaints", formData),
   getAll: (params) => api.get("/complaints", { params }),
   getById: (id) => api.get(`/complaints/${id}`),
   getStats: () => api.get("/complaints/stats"),

@@ -91,29 +91,37 @@ const Navbar = () => {
 
                 {user?.role === "SuperAdmin" ? (
                   <div className="admin-flex-group">
-                    <Link to="/complaints" className={isActive("/complaints")} onClick={() => setIsMenuOpen(false)}>
-                      <span className="icon">⬡</span>
-                      <span className="label">Tickets</span>
-                    </Link>
                     <Link to="/reports" className={isActive("/reports")} onClick={() => setIsMenuOpen(false)}>
                       <span className="icon">📊</span>
                       <span className="label">Reports</span>
+                    </Link>
+                    <Link to="/departments" className={isActive("/departments")} onClick={() => setIsMenuOpen(false)}>
+                      <span className="icon">🏢</span>
+                      <span className="label">Depts</span>
                     </Link>
 
                     <div className="inner-divider"></div>
 
                     <div className="shortcut-dots">
+                      <Link to="/blocks" className={isActive("/blocks")} onClick={() => setIsMenuOpen(false)} title="Blocks">
+                        <span className="icon">🏗️</span>
+                        <span className="label">Blocks</span>
+                      </Link>
+                      <Link to="/rooms" className={isActive("/rooms")} onClick={() => setIsMenuOpen(false)} title="Rooms">
+                        <span className="icon">🚪</span>
+                        <span className="label">Rooms</span>
+                      </Link>
+                      <Link to="/roles" className={isActive("/roles")} onClick={() => setIsMenuOpen(false)} title="Roles">
+                        <span className="icon">🛡️</span>
+                        <span className="label">Roles</span>
+                      </Link>
                       <Link to="/users" className={isActive("/users")} onClick={() => setIsMenuOpen(false)} title="Users">
                         <span className="icon">👥</span>
                         <span className="label">Users</span>
                       </Link>
-                      <Link to="/departments" className={isActive("/departments")} onClick={() => setIsMenuOpen(false)} title="Departments">
-                        <span className="icon">🏢</span>
-                        <span className="label">Depts</span>
-                      </Link>
-                      <Link to="/blocks" className={isActive("/blocks")} onClick={() => setIsMenuOpen(false)} title="Infrastructure Blocks">
-                        <span className="icon">🏗️</span>
-                        <span className="label">Blocks</span>
+                      <Link to="/complaints" className={isActive("/complaints")} onClick={() => setIsMenuOpen(false)} title="Tickets">
+                        <span className="icon">🗂️</span>
+                        <span className="label">Tickets</span>
                       </Link>
                     </div>
                   </div>

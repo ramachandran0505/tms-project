@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { roleService } from "../services/api";
-import "./MasterScreen.css";
+import "./RolePage.css";
 
 const RolePage = () => {
   const { user } = useContext(AuthContext);
@@ -69,87 +69,90 @@ const RolePage = () => {
   if (loading) return <div className="loading">Parsing Permission Matrix...</div>;
 
   return (
-    <div className="master-screen animated-bg">
-      <div className="screen-content">
-        <header className="screen-header-rail">
-          <h1>Permission Matrix</h1>
-          <button
-            onClick={() => { setShowForm(!showForm); if (showForm) setEditingId(null); }}
-            className="btn-primary"
-          >
-            {showForm ? "✕ Close Interface" : "＋ Register Role"}
-          </button>
-        </header>
+    <div className="role-page page-container">
+      <header className="role-page-header">
+        <h1>Permission Matrix</h1>
+        <button
+          onClick={() => { setShowForm(!showForm); if (showForm) setEditingId(null); }}
+          className="primary-action-btn"
+        >
+          {showForm ? "✕ Close Interface" : "＋ Register Role"}
+        </button>
+      </header>
 
-        {error && <div className="error-message">{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
-        {showForm && (
-          <form className="master-form-glass" onSubmit={handleSubmit}>
-            <div className="form-grid">
-              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <label>Operational Designation</label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. System Engineer"
-                  required
-                />
-              </div>
-              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <label>Access Vectors (Comma Separated)</label>
-                <textarea
-                  value={formData.permissions}
-                  onChange={(e) => setFormData({ ...formData, permissions: e.target.value })}
-                  placeholder="read_data, write_logs, triage_tickets..."
-                  rows="3"
-                />
-              </div>
+      {showForm && (
+        <form className="role-form-card" onSubmit={handleSubmit}>
+          <div className="form-grid">
+            <div className="form-group-item" style={{ gridColumn: '1 / -1' }}>
+              <label>Operational Designation</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="e.g. System Engineer"
+                required
+              />
             </div>
-            <button type="submit" className="btn-primary" style={{ width: '100%' }}>
-              {editingId ? "Update Authorization" : "Commit Role"}
-            </button>
-          </form>
-        )}
+            <div className="form-group-item" style={{ gridColumn: '1 / -1' }}>
+              <label>Access Vectors (Comma Separated)</label>
+              <textarea
+                value={formData.permissions}
+                onChange={(e) => setFormData({ ...formData, permissions: e.target.value })}
+                placeholder="read_data, write_logs, triage_tickets..."
+                rows="3"
+              />
+            </div>
+          </div>
+          <button type="submit" className="primary-action-btn" style={{ width: '100%', justifyContent: 'center' }}>
+            {editingId ? "Update Authorization" : "Commit Role"}
+          </button>
+        </form>
+      )}
 
-        <section className="master-table-card">
-          <div className="table-action-header">
-            <h3>Authorization Registry</h3>
-            <span className="info-label">{roles.length} Tiers Active</span>
-          </div>
-          <div className="table-wrapper">
-            <table className="standard-table">
-              <thead>
-                <tr>
-                  <th>Designation</th>
-                  <th>Permission Vectors</th>
-                  <th style={{ textAlign: 'right' }}>Action</th>
+      <section className="role-table-card">
+        <div className="table-action-header">
+          <h3>Authorization Registry</h3>
+          <span className="info-label">{roles.length} Tiers Active</span>
+        </div>
+        <div className="table-wrapper" style={{ margin: 0, border: 'none', borderRadius: 0 }}>
+          <table className="standard-table">
+            <thead>
+              <tr>
+                <th>Designation</th>
+                <th>Permission Vectors</th>
+                <th style={{ textAlign: 'right' }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {roles.map((r) => (
+                <tr key={r._id}>
+                  <td style={{ fontWeight: 700, color: 'var(--primary)' }}>{r.name}</td>
+                  <td>
+                    <div className="permission-tag-group">
+                      {r.permissions?.map((p, idx) => (
+                        <span key={idx} className="status-tag tag-progress">{p}</span>
+                      ))}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="action-btn-group">
+                      <button className="btn-icon-only" onClick={() => handleEdit(r)} title="Edit Role">✎</button>
+                      <button className="btn-icon-only btn-delete-icon" onClick={() => handleDelete(r._id)} title="Delete Role">✕</button>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {roles.map((r) => (
-                  <tr key={r._id}>
-                    <td style={{ fontWeight: 700 }}>{r.name}</td>
-                    <td>
-                      <div className="permission-tag-group" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
-                        {r.permissions?.map((p, idx) => (
-                          <span key={idx} className="status-tag tag-progress">{p}</span>
-                        ))}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="action-btn-group">
-                        <button className="btn-icon-only" onClick={() => handleEdit(r)}>✎</button>
-                        <button className="btn-icon-only btn-delete-icon" onClick={() => handleDelete(r._id)}>✕</button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
+              ))}
+              {roles.length === 0 && (
+                <tr>
+                  <td colSpan="3" style={{ textAlign: 'center', opacity: 0.5 }}>No roles initialized.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 };
