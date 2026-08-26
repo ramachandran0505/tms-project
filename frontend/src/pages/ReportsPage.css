@@ -20,8 +20,8 @@
 
 /* Filter Console */
 .filter-console {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 2rem;
   display: flex;
@@ -55,27 +55,27 @@
 }
 
 .btn-primary-intel {
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   color: #ffffff;
   border: none;
   box-shadow: 0 2px 8px rgba(108, 71, 255, 0.25);
 }
 
 .btn-secondary-intel {
-  background: #F4F4F5;
-  color: #171717;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--item-hover, #F4F4F5);
+  color: var(--text-main, #171717);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
 }
 
 .btn-secondary-intel:hover {
-  background: #E4E4E7;
+  background: var(--border-color, #E4E4E7);
 }
 
 /* Data Table Card */
 .intelligence-card {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
@@ -121,4 +121,35 @@
   .reports-header h1 {
     font-size: 1.8rem;
   }
+}
+
+/* ==========================================================================
+   Reports Page Dark Mode System Overrides ([data-theme="dark"])
+   ========================================================================== */
+[data-theme="dark"] .reports-page {
+  background-color: #0B0D13;
+  color: #F8FAFC;
+}
+
+[data-theme="dark"] .filter-console {
+  background: #131722 !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .intelligence-card {
+  background: #131722 !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .btn-secondary-intel {
+  background: #1E2336 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #E2E8F0 !important;
+}
+
+[data-theme="dark"] .btn-secondary-intel:hover {
+  background: #282E46 !important;
+  color: #ffffff !important;
 }

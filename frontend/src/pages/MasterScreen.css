@@ -20,24 +20,24 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.25rem 1.75rem;
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .screen-header-rail h1 {
   font-size: clamp(1.6rem, 3.5vw, 2.2rem);
   margin: 0;
-  color: #171717;
+  color: var(--text-main, #171717);
   font-weight: 800;
   letter-spacing: -0.3px;
 }
 
 /* Master Form Card */
 .master-form-glass {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 2rem;
   max-width: 800px;
@@ -56,8 +56,8 @@
 
 /* Master Table Card */
 .master-table-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -65,8 +65,8 @@
 
 .table-action-header {
   padding: 1.25rem 1.75rem;
-  background: #FAFAFA;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--table-header-bg, #FAFAFA);
+  border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,22 +76,22 @@
   font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: 0.3px;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin: 0;
 }
 
 .table-avatar {
   width: 32px;
   height: 32px;
-  background: #EEF2FF;
-  border: 1px solid #C7D2FE;
+  background: rgba(108, 71, 255, 0.1);
+  border: 1px solid rgba(108, 71, 255, 0.25);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
   font-weight: 800;
-  color: #6C47FF;
+  color: var(--primary, #6C47FF);
   overflow: hidden;
 }
 
@@ -117,24 +117,24 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  background: #EEF2FF;
-  border: 1px solid #C7D2FE;
-  color: #6C47FF !important;
+  background: rgba(108, 71, 255, 0.08);
+  border: 1px solid rgba(108, 71, 255, 0.2);
+  color: var(--primary, #6C47FF) !important;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
 }
 
 .btn-icon-only:hover {
-  background: #6C47FF;
-  border-color: #6C47FF;
+  background: var(--primary, #6C47FF);
+  border-color: var(--primary, #6C47FF);
   color: #ffffff !important;
   transform: translateY(-1px);
 }
 
 .btn-icon-only.btn-delete-icon {
-  background: #FEF2F2;
-  border-color: #FECACA;
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.2);
   color: #EF4444 !important;
 }
 

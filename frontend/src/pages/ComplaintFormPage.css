@@ -25,8 +25,8 @@
 
 /* Form Card */
 .form-glass-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 2.5rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -53,7 +53,7 @@
 .form-group label {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -63,10 +63,10 @@
 .form-group textarea {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--input-border, rgba(0, 0, 0, 0.12));
   border-radius: 10px;
-  background-color: #ffffff;
-  color: #171717;
+  background-color: var(--input-bg, #ffffff);
+  color: var(--text-main, #171717);
   font-size: 0.95rem;
   font-family: inherit;
   transition: var(--transition);
@@ -88,14 +88,14 @@
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
   box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.15);
 }
 
 .form-group select:disabled,
 .form-group input:disabled {
-  background-color: #F4F4F5;
-  color: #A1A1AA;
+  background-color: var(--item-hover, #F4F4F5);
+  color: var(--text-secondary, #A1A1AA);
   cursor: not-allowed;
   opacity: 0.85;
 }
@@ -111,13 +111,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #F8FAFC;
+  background: var(--card-bg, #F8FAFC);
   transition: var(--transition);
   cursor: pointer;
 }
 
 .file-upload-zone:hover {
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
   background: #EEF2FF;
 }
 

@@ -26,8 +26,8 @@
 }
 
 .admin-stat-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 14px;
   padding: 1.5rem;
   display: flex;
@@ -50,9 +50,9 @@
 
 /* Table Enhancements */
 .admin-table-container {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
@@ -68,21 +68,21 @@
 }
 
 .btn-assign {
-  background: #EEF2FF;
-  color: #6C47FF;
-  border: 1px solid #C7D2FE;
+  background: rgba(108, 71, 255, 0.1);
+  color: var(--primary, #6C47FF);
+  border: 1px solid rgba(108, 71, 255, 0.25);
 }
 
 .btn-assign:hover {
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   color: #ffffff;
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
 }
 
 .btn-done {
-  background: #ECFDF5;
+  background: rgba(5, 150, 105, 0.1);
   color: #059669;
-  border: 1px solid #A7F3D0;
+  border: 1px solid rgba(5, 150, 105, 0.25);
 }
 
 .btn-done:hover {
@@ -102,15 +102,15 @@
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 8px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  color: #171717;
+  background: var(--input-bg, #ffffff);
+  border: 1px solid var(--input-border, rgba(0, 0, 0, 0.12));
+  color: var(--text-main, #171717);
   outline: none;
   transition: var(--transition);
 }
 
 .mini-select:focus {
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
   box-shadow: 0 0 0 2px rgba(108, 71, 255, 0.15);
 }
 

@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { ThemeContext } from "../context/ThemeContext";
 import "./Navbar-simple.css";
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useContext(AuthContext);
+  const { toggleThemeMode, isDark } = useContext(ThemeContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showAdminMenu, setShowAdminMenu] = useState(false);
@@ -114,15 +116,17 @@ const Navbar = () => {
         <div className="brand-unit">
           <Link to="/dashboard" className="brand-nexus-anchor" onClick={() => setIsMenuOpen(false)}>
             <div className="brand-logo-pod">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
               </svg>
             </div>
             <div className="brand-telemetry">
               <span className="title">TMS</span>
               <div className="status-indicator">
                 <span className="status-dot"></span>
-                <span className="status-label">ONLINE</span>
+                <span className="status-label">PORTAL</span>
               </div>
             </div>
           </Link>
@@ -131,21 +135,48 @@ const Navbar = () => {
         {/* Center Command Rail (Desktop) & Mobile Drawer */}
         {isAuthenticated && (
           <div className={`command-unit ${isMenuOpen ? "gate-open" : ""}`} ref={drawerRef}>
-            {/* Mobile Drawer Top Bar with Close Button */}
+            {/* Mobile Drawer Top Bar with Theme Switch & Close Button */}
             <div className="mobile-drawer-header">
               <div className="drawer-top-action-row">
                 <span className="drawer-nav-heading">NAVIGATION</span>
-                <button
-                  className="drawer-close-btn"
-                  onClick={() => setIsMenuOpen(false)}
-                  aria-label="Close navigation menu"
-                  type="button"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                </button>
+                <div className="drawer-top-btns">
+                  <button
+                    className="drawer-theme-toggle-btn"
+                    onClick={toggleThemeMode}
+                    aria-label={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+                    title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+                    type="button"
+                  >
+                    {isDark ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="5" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                      </svg>
+                    )}
+                  </button>
+                  <button
+                    className="drawer-close-btn"
+                    onClick={() => setIsMenuOpen(false)}
+                    aria-label="Close navigation menu"
+                    type="button"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                  </button>
+                </div>
               </div>
 
               <Link to="/profile" className="mobile-profile-card" onClick={() => setIsMenuOpen(false)}>
@@ -231,7 +262,8 @@ const Navbar = () => {
                     {showAdminMenu && (
                       <div className="admin-popover-menu">
                         <div className="admin-popover-header">
-                          <span>SYSTEM CONFIGURATION</span>
+                          <span className="popover-badge-pill">SYSTEM CONFIGURATION</span>
+                          <span className="popover-count">6 MODULES</span>
                         </div>
                         <div className="admin-popover-grid">
                           <Link to="/departments" className={`admin-popover-item ${location.pathname === "/departments" ? "active" : ""}`} onClick={() => setShowAdminMenu(false)}>
@@ -336,14 +368,32 @@ const Navbar = () => {
         <div className="profile-unit" ref={dropdownRef}>
           {isAuthenticated ? (
             <>
-              {/* Mobile Quick New Ticket CTA */}
-              <Link to="/complaints/new" className="mobile-quick-action-cta" title="Create Ticket">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                <span>New</span>
-              </Link>
+              {/* Desktop Dark / Light Mode Toggle Button */}
+              <button
+                className="theme-toggle-nav-btn desktop-only-btn"
+                onClick={toggleThemeMode}
+                aria-label={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+                title={`Switch to ${isDark ? 'Light' : 'Dark'} Mode`}
+                type="button"
+              >
+                {isDark ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                )}
+              </button>
 
               <div className="identity-capsule-v5">
                 <button

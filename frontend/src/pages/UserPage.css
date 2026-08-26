@@ -59,7 +59,7 @@
 }
 
 .user-form-card {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   backdrop-filter: blur(20px);
   padding: var(--space-lg);
   border-radius: var(--radius-lg);
@@ -103,11 +103,11 @@
 .form-group-item select {
   width: 100%;
   padding: 0.875rem 1rem;
-  border: 1px solid var(--border-soft);
+  border: 1px solid var(--input-border, var(--border-soft));
   border-radius: 12px;
   font-size: 0.95rem;
   color: var(--text-main);
-  background-color: #ffffff;
+  background-color: var(--input-bg, #ffffff);
   transition: var(--transition);
 }
 
@@ -115,12 +115,12 @@
 .form-group-item select:focus {
   outline: none;
   border-color: var(--primary, #6C47FF);
-  background-color: #ffffff;
+  background-color: var(--input-bg, #ffffff);
   box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.15);
 }
 
 .user-table-card {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-soft);
   overflow: hidden;
@@ -136,7 +136,7 @@
 }
 
 .user-table thead {
-  background-color: #FAFAFA;
+  background-color: var(--table-header-bg, #FAFAFA);
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -147,7 +147,7 @@
   font-weight: 800;
   color: var(--text-secondary);
   text-transform: uppercase;
-  background: #FAFAFA;
+  background: var(--table-header-bg, #FAFAFA);
   letter-spacing: 0.1em;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .user-table tr:hover {
-  background-color: #F8FAFC;
+  background-color: var(--table-hover-bg, #F8FAFC);
 }
 
 .edit-action-btn,
@@ -173,9 +173,25 @@
 }
 
 .edit-action-btn {
-  background-color: #EEF2FF;
-  color: #6C47FF;
-  border-color: #C7D2FE;
+  background-color: rgba(108, 71, 255, 0.1);
+  color: var(--primary, #6C47FF);
+  border-color: rgba(108, 71, 255, 0.25);
+}
+
+.edit-action-btn:hover {
+  background-color: var(--primary, #6C47FF);
+  color: #ffffff;
+}
+
+.delete-action-btn {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.delete-action-btn:hover {
+  background-color: #EF4444;
+  color: #ffffff;
 }
 
 .edit-action-btn:hover {

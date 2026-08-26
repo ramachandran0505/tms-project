@@ -10,8 +10,8 @@
 .login-card {
   width: 100%;
   max-width: 440px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 2.5rem;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
@@ -35,14 +35,14 @@
 .login-card h1 {
   font-size: 2rem;
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   text-align: center;
   margin-bottom: 0.25rem;
 }
 
 .login-card .subtitle {
   text-align: center;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   font-size: 0.85rem;
   font-weight: 500;
   margin-bottom: 2rem;
@@ -85,7 +85,7 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin-bottom: 0.4rem;
 }
 
@@ -97,17 +97,17 @@
 
 .form-group input {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--input-bg, #ffffff);
+  border: 1px solid var(--input-border, rgba(0, 0, 0, 0.12));
   padding: 0.75rem 1rem;
   border-radius: 10px;
-  color: #171717;
+  color: var(--text-main, #171717);
   font-size: 0.95rem;
   transition: var(--transition);
 }
 
 .form-group input:focus {
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
   outline: none;
   box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.15);
 }

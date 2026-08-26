@@ -6,7 +6,7 @@
 .home-dashboard-page {
   min-height: 100vh;
   padding: calc(85px + var(--safe-top)) max(1.5rem, var(--safe-right)) calc(3rem + var(--safe-bottom)) max(1.5rem, var(--safe-left));
-  color: #171717;
+  color: var(--text-main, #171717);
   animation: fadeIn 0.4s ease-out;
 }
 
@@ -20,8 +20,8 @@
 
 /* Top Hero Card */
 .dashboard-hero-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 20px;
   padding: 1.75rem 2rem;
   display: flex;
@@ -40,7 +40,7 @@
 .avatar-user-badge {
   width: 64px;
   height: 64px;
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   border-radius: 18px;
   display: flex;
   align-items: center;
@@ -70,9 +70,9 @@
   gap: 6px;
   font-size: 0.68rem;
   font-weight: 800;
-  color: #6C47FF;
-  background: #EEF2FF;
-  border: 1px solid #C7D2FE;
+  color: var(--primary, #6C47FF);
+  background: rgba(108, 71, 255, 0.08);
+  border: 1px solid rgba(108, 71, 255, 0.2);
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
   text-transform: uppercase;
@@ -84,30 +84,30 @@
 .pill-dot {
   width: 6px;
   height: 6px;
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   border-radius: 50%;
 }
 
 .hero-text-group h1 {
   font-size: clamp(1.4rem, 3.2vw, 2rem);
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin: 0 0 0.15rem 0;
   letter-spacing: -0.3px;
 }
 
 .hero-text-group h1 span {
-  color: #6C47FF;
+  color: var(--primary, #6C47FF);
 }
 
 .hero-text-group p {
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   font-size: 0.85rem;
   margin: 0;
 }
 
 .hero-primary-btn {
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   color: #ffffff;
   padding: 0.8rem 1.6rem;
   border-radius: 12px;
@@ -123,7 +123,7 @@
 }
 
 .hero-primary-btn:hover {
-  background: #5835E5;
+  background: var(--primary-hover, #5835E5);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(108, 71, 255, 0.35);
 }
@@ -136,8 +136,8 @@
 }
 
 .metric-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
   display: flex;
@@ -191,14 +191,14 @@
 .metric-number {
   font-size: 1.7rem;
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   line-height: 1;
 }
 
 .metric-label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 0.25rem;
@@ -212,13 +212,13 @@
 .section-title-bar h2 {
   font-size: 1.3rem;
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin: 0 0 0.15rem 0;
 }
 
 .subtitle-hint {
   font-size: 0.85rem;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
 }
 
 /* Admin Modules Grid */
@@ -229,8 +229,8 @@
 }
 
 .module-card-item {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 1.5rem;
   text-decoration: none;
@@ -257,7 +257,8 @@
 .module-icon-pod {
   width: 44px;
   height: 44px;
-  background: #EEF2FF;
+  background: rgba(108, 71, 255, 0.08);
+  color: var(--primary, #6C47FF);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -267,7 +268,7 @@
 }
 
 .module-card-item:hover .module-icon-pod {
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   color: #ffffff;
   transform: scale(1.05);
 }
@@ -275,8 +276,8 @@
 .module-tag {
   font-size: 0.68rem;
   font-weight: 700;
-  color: #71717A;
-  background: #F4F4F5;
+  color: var(--text-secondary, #71717A);
+  background: var(--item-hover, #F4F4F5);
   padding: 0.2rem 0.55rem;
   border-radius: 6px;
   text-transform: uppercase;
@@ -285,26 +286,26 @@
 .module-body h3 {
   font-size: 1.1rem;
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin: 0 0 0.35rem 0;
 }
 
 .module-body p {
   font-size: 0.85rem;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   margin: 0;
   line-height: 1.4;
 }
 
 .module-footer {
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid var(--border-color, rgba(0, 0, 0, 0.06));
 }
 
 .arrow-link {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #6C47FF;
+  color: var(--primary, #6C47FF);
   transition: margin-left 0.2s ease;
 }
 
@@ -320,8 +321,8 @@
 }
 
 .user-action-card {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   border-radius: 16px;
   padding: 2rem;
   text-decoration: none;
@@ -333,8 +334,8 @@
 }
 
 .user-action-card.highlight {
-  border-color: #C7D2FE;
-  background: linear-gradient(180deg, #FFFFFF 0%, #EEF2FF 100%);
+  border-color: rgba(108, 71, 255, 0.3);
+  background: linear-gradient(180deg, var(--card-bg, #FFFFFF) 0%, rgba(108, 71, 255, 0.06) 100%);
 }
 
 .user-action-card:hover {
@@ -349,21 +350,58 @@
 .user-action-card h3 {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin: 0;
 }
 
 .user-action-card p {
   font-size: 0.88rem;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   margin: 0;
 }
 
 .action-btn-text {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #6C47FF;
+  color: var(--primary, #6C47FF);
   margin-top: 0.5rem;
+}
+
+/* Dark Mode Overrides for HomePage */
+[data-theme="dark"] .total-metric .metric-icon {
+  background: rgba(108, 71, 255, 0.18);
+  color: #C7D2FE;
+}
+
+[data-theme="dark"] .pending-metric .metric-icon {
+  background: rgba(217, 119, 6, 0.18);
+  color: #FDE68A;
+}
+
+[data-theme="dark"] .progress-metric .metric-icon {
+  background: rgba(124, 58, 237, 0.18);
+  color: #DDD6FE;
+}
+
+[data-theme="dark"] .closed-metric .metric-icon {
+  background: rgba(5, 150, 105, 0.18);
+  color: #A7F3D0;
+}
+
+[data-theme="dark"] .clearance-pill {
+  background: rgba(108, 71, 255, 0.15);
+  border-color: rgba(108, 71, 255, 0.35);
+  color: #C7D2FE;
+}
+
+[data-theme="dark"] .module-tag {
+  background: #1E2336;
+  color: #94A3B8;
+}
+
+[data-theme="dark"] .user-action-card.highlight {
+  background: linear-gradient(180deg, #131722 0%, #1A1733 100%);
+  border-color: rgba(108, 71, 255, 0.35);
 }
 
 @media (max-width: 992px) {

@@ -2,7 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: calc(80px + var(--safe-top)) max(1.5rem, var(--safe-right)) calc(2.5rem + var(--safe-bottom)) max(1.5rem, var(--safe-left));
-  color: #171717;
+  color: var(--text-main, #171717);
   animation: fadeIn 0.4s ease-out;
 }
 
@@ -11,22 +11,22 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.75rem;
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   padding: 1.25rem 1.75rem;
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 .room-page-header h1 {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #171717;
+  color: var(--text-main, #171717);
   margin: 0;
 }
 
 .primary-action-btn {
-  background: #6C47FF;
+  background: var(--primary, #6C47FF);
   color: #ffffff;
   padding: 0.75rem 1.5rem;
   border-radius: 10px;
@@ -44,14 +44,14 @@
 .primary-action-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(108, 71, 255, 0.35);
-  background: #5835E5;
+  background: var(--primary-hover, #5835E5);
 }
 
 .room-form-card {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   padding: 2rem;
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   margin-bottom: 2rem;
   animation: slideDown 0.3s ease-out;
   max-width: 750px;
@@ -70,7 +70,7 @@
   display: block;
   font-size: 0.8rem;
   font-weight: 700;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   margin-bottom: 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -80,25 +80,25 @@
 .form-group-item select {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--input-border, rgba(0, 0, 0, 0.12));
   border-radius: 10px;
   font-size: 0.95rem;
-  color: #171717;
-  background-color: #ffffff;
+  color: var(--text-main, #171717);
+  background-color: var(--input-bg, #ffffff);
   transition: var(--transition);
 }
 
 .form-group-item input:focus,
 .form-group-item select:focus {
   outline: none;
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
   box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.15);
 }
 
 .room-table-card {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
@@ -109,8 +109,8 @@
 }
 
 .room-table thead {
-  background-color: #FAFAFA;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: var(--table-header-bg, #FAFAFA);
+  border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
 }
 
 .room-table th {
@@ -118,18 +118,19 @@
   text-align: left;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #71717A;
+  color: var(--text-secondary, #71717A);
   text-transform: uppercase;
+  background-color: var(--table-header-bg, #FAFAFA);
 }
 
 .room-table td {
   padding: 1rem 1.25rem;
-  color: #171717;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  color: var(--text-main, #171717);
+  border-bottom: 1px solid var(--border-color, rgba(0, 0, 0, 0.06));
 }
 
 .room-table tr:hover {
-  background-color: #F8FAFC;
+  background-color: var(--table-hover-bg, #F8FAFC);
 }
 
 .edit-action-btn,
@@ -144,21 +145,21 @@
 }
 
 .edit-action-btn {
-  background-color: #EEF2FF;
-  color: #6C47FF;
-  border-color: #C7D2FE;
+  background-color: rgba(108, 71, 255, 0.1);
+  color: var(--primary, #6C47FF);
+  border-color: rgba(108, 71, 255, 0.25);
 }
 
 .edit-action-btn:hover {
-  background-color: #6C47FF;
+  background-color: var(--primary, #6C47FF);
   color: #ffffff;
-  border-color: #6C47FF;
+  border-color: var(--primary, #6C47FF);
 }
 
 .delete-action-btn {
-  background: #FEF2F2;
+  background: rgba(239, 68, 68, 0.1);
   color: #EF4444;
-  border-color: #FECACA;
+  border-color: rgba(239, 68, 68, 0.25);
 }
 
 .delete-action-btn:hover {
