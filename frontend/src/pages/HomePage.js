@@ -59,7 +59,7 @@ const HomePage = () => {
                 {user?.role === "SuperAdmin" ? "SUPERADMIN CLEARANCE" : "USER CLEARANCE"}
               </div>
               <h1>
-                Welcome back, <span>{user?.username || "Operator"}</span> 👋
+                Welcome back, <span>{user?.username || "Operator"}</span>
               </h1>
               <p>Campus Operations & Facility Management Control System</p>
             </div>
