@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { blockService, departmentService, programmeService } from "../services/api";
+import ConfirmModal from "../components/ConfirmModal";
 import "./MasterScreen.css";
 
 const BlockPage = () => {
@@ -13,6 +14,8 @@ const BlockPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", department: "", programme: "" });
   const [editingId, setEditingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   useEffect(() => {
     if (user?.role === "SuperAdmin") fetchData();
@@ -26,9 +29,9 @@ const BlockPage = () => {
         departmentService.getAll(),
         programmeService.getAll(),
       ]);
-      setBlocks(blockRes.data);
-      setDepartments(deptRes.data);
-      setProgrammes(progRes.data);
+      setBlocks(blockRes.data || []);
+      setDepartments(deptRes.data || []);
+      setProgrammes(progRes.data || []);
       setError("");
     } catch (err) {
       setError("Infrastructure data synchronization failed.");
@@ -65,16 +68,24 @@ const BlockPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Permanent deletion of this infrastructure block code?")) {
-      try {
-        await blockService.delete(id);
-        fetchData();
-      } catch (err) {
-        setError("Deletion failed: Structural dependency detected.");
-      }
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+    try {
+      await blockService.delete(deleteTargetId);
+      setDeleteTargetId(null);
+      fetchData();
+    } catch (err) {
+      setError("Deletion failed: Structural dependency detected.");
+      setDeleteTargetId(null);
     }
   };
+
+  const filteredBlocks = blocks.filter(
+    (block) =>
+      block.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      block.department?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      block.programme?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) return <div className="loading">Mapping Structural Blocks...</div>;
 
@@ -140,9 +151,15 @@ const BlockPage = () => {
         )}
 
         <section className="master-table-card">
-          <div className="table-action-header">
-            <h3>Infrastructure Registry</h3>
-            <span className="info-label">{blocks.length} Blocks Verified</span>
+          <div className="table-action-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+            <h3>Infrastructure Registry ({filteredBlocks.length})</h3>
+            <input
+              type="text"
+              placeholder="🔍 Search block name, department, or programme..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ maxWidth: '300px' }}
+            />
           </div>
           <div className="table-wrapper">
             <table className="standard-table">
@@ -155,23 +172,38 @@ const BlockPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {blocks.map((block) => (
+                {filteredBlocks.map((block) => (
                   <tr key={block._id}>
                     <td style={{ fontWeight: 700 }}>{block.name}</td>
                     <td>{block.department?.name || "N/A"}</td>
-                    <td>{block.programme?.name || "N/A"}</td>
+                    <td><span className="status-tag tag-progress">{block.programme?.name || "N/A"}</span></td>
                     <td>
                       <div className="action-btn-group">
-                        <button className="btn-icon-only" onClick={() => handleEdit(block)}>✎</button>
-                        <button className="btn-icon-only btn-delete-icon" onClick={() => handleDelete(block._id)}>✕</button>
+                        <button className="btn-icon-only" onClick={() => handleEdit(block)} title="Edit">✎</button>
+                        <button className="btn-icon-only btn-delete-icon" onClick={() => setDeleteTargetId(block._id)} title="Delete">✕</button>
                       </div>
                     </td>
                   </tr>
                 ))}
+                {filteredBlocks.length === 0 && (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'center', padding: '3rem', opacity: 0.6 }}>
+                      No block records matching query.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </section>
+
+        <ConfirmModal
+          isOpen={!!deleteTargetId}
+          title="Delete Block?"
+          message="Are you sure you want to permanently remove this infrastructure block?"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTargetId(null)}
+        />
       </div>
     </div>
   );

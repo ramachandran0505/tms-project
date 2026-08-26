@@ -89,13 +89,20 @@ const UserComplaintDashboardPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const getStatusClass = (status) => {
+  const getStatusBadge = (status) => {
     switch (status) {
-      case "Pending": return "tag-pending";
-      case "Assigned": return "tag-assigned";
-      case "In-Progress": return "tag-progress";
-      case "Completed": return "tag-completed";
-      default: return "";
+      case "Pending":
+        return <span className="status-tag tag-pending">🕒 Pending</span>;
+      case "Assigned":
+        return <span className="status-tag tag-assigned">👤 Assigned</span>;
+      case "In-Progress":
+      case "In Progress":
+        return <span className="status-tag tag-progress">🔄 In Progress</span>;
+      case "Completed":
+      case "Closed":
+        return <span className="status-tag tag-completed">✅ Closed</span>;
+      default:
+        return <span className="status-tag">{status}</span>;
     }
   };
 
@@ -157,11 +164,7 @@ const UserComplaintDashboardPage = () => {
               </div>
               <div className="info-box">
                 <span className="info-label">Current Status</span>
-                <div>
-                  <span className={`status-tag ${getStatusClass(selectedComplaint.status)}`}>
-                    {selectedComplaint.status}
-                  </span>
-                </div>
+                <div>{getStatusBadge(selectedComplaint.status)}</div>
               </div>
               <div className="info-box">
                 <span className="info-label">Submission Date</span>
@@ -177,11 +180,34 @@ const UserComplaintDashboardPage = () => {
                 </p>
               </div>
 
+              {/* Ticket History Timeline */}
+              <div className="info-box" style={{ gridColumn: "1 / -1", marginTop: "1rem" }}>
+                <span className="info-label">Ticket Progression Timeline</span>
+                <div className="timeline-container" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.75rem' }}>
+                  <div className="timeline-event" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
+                    <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#6C47FF' }}></div>
+                    <span><strong>Created:</strong> Ticket #{selectedComplaint._id.slice(-6).toUpperCase()} logged on {new Date(selectedComplaint.createdAt).toLocaleString()}</span>
+                  </div>
+                  {selectedComplaint.assignedTo && (
+                    <div className="timeline-event" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
+                      <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#8B5CF6' }}></div>
+                      <span><strong>Assigned:</strong> Dispatched to {selectedComplaint.assignedTo.username || 'Staff'}</span>
+                    </div>
+                  )}
+                  {selectedComplaint.status === "Completed" && (
+                    <div className="timeline-event" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
+                      <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#10B981' }}></div>
+                      <span><strong>Resolved:</strong> Issue marked finished</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {selectedComplaint.attachment && (
                 <div className="info-box" style={{ gridColumn: "1 / -1" }}>
                   <span className="info-label">Evidentiary Attachment</span>
                   <a
-                    href={`http://localhost:5000/${selectedComplaint.attachment}`}
+                    href={`http://localhost:5001/${selectedComplaint.attachment}`}
                     target="_blank"
                     rel="noreferrer"
                     className="reset-filter-btn"
@@ -230,13 +256,9 @@ const UserComplaintDashboardPage = () => {
               <tbody>
                 {filteredComplaints.map((c) => (
                   <tr key={c._id} onClick={() => viewComplaintDetails(c)} style={{ cursor: 'pointer' }}>
-                    <td>{c.blockName} / {c.roomNumber}</td>
+                    <td><strong>#{c._id.slice(-6).toUpperCase()}</strong> - {c.blockName} / {c.roomNumber}</td>
                     <td>{c.complaintType}</td>
-                    <td>
-                      <span className={`status-tag ${getStatusClass(c.status)}`}>
-                        {c.status}
-                      </span>
-                    </td>
+                    <td>{getStatusBadge(c.status)}</td>
                     <td>{new Date(c.createdAt).toLocaleDateString()}</td>
                     <td onClick={(e) => e.stopPropagation()}>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>

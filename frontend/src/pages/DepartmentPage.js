@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { departmentService } from "../services/api";
+import ConfirmModal from "../components/ConfirmModal";
 import "./MasterScreen.css";
 
 const DepartmentPage = () => {
@@ -11,6 +12,8 @@ const DepartmentPage = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", shortName: "" });
   const [editingId, setEditingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   useEffect(() => {
     if (user?.role === "SuperAdmin") fetchDepartments();
@@ -20,7 +23,7 @@ const DepartmentPage = () => {
     try {
       setLoading(true);
       const response = await departmentService.getAll();
-      setDepartments(response.data);
+      setDepartments(response.data || []);
       setError("");
     } catch (err) {
       setError("Failed to fetch department records from the secure server.");
@@ -53,16 +56,23 @@ const DepartmentPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Permanent deletion of this record?")) {
-      try {
-        await departmentService.delete(id);
-        fetchDepartments();
-      } catch (err) {
-        setError("Execution failed: dependency restriction.");
-      }
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+    try {
+      await departmentService.delete(deleteTargetId);
+      setDeleteTargetId(null);
+      fetchDepartments();
+    } catch (err) {
+      setError("Execution failed: dependency restriction.");
+      setDeleteTargetId(null);
     }
   };
+
+  const filteredDepartments = departments.filter(
+    (dept) =>
+      dept.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      dept.shortName?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) return <div className="loading">Syncing Records...</div>;
 
@@ -112,9 +122,15 @@ const DepartmentPage = () => {
         )}
 
         <section className="master-table-card">
-          <div className="table-action-header">
-            <h3>Registry Output</h3>
-            <span className="info-label">{departments.length} Units Active</span>
+          <div className="table-action-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+            <h3>Registry Output ({filteredDepartments.length})</h3>
+            <input
+              type="text"
+              placeholder="🔍 Search department name or code..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ maxWidth: '300px' }}
+            />
           </div>
           <div className="table-wrapper">
             <table className="standard-table">
@@ -126,22 +142,37 @@ const DepartmentPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {departments.map((dept) => (
+                {filteredDepartments.map((dept) => (
                   <tr key={dept._id}>
                     <td style={{ fontWeight: 700 }}>{dept.name}</td>
-                    <td>{dept.shortName}</td>
+                    <td><span className="status-tag tag-progress">{dept.shortName}</span></td>
                     <td>
                       <div className="action-btn-group">
-                        <button className="btn-icon-only" onClick={() => handleEdit(dept)}>✎</button>
-                        <button className="btn-icon-only btn-delete-icon" onClick={() => handleDelete(dept._id)}>✕</button>
+                        <button className="btn-icon-only" onClick={() => handleEdit(dept)} title="Edit">✎</button>
+                        <button className="btn-icon-only btn-delete-icon" onClick={() => setDeleteTargetId(dept._id)} title="Delete">✕</button>
                       </div>
                     </td>
                   </tr>
                 ))}
+                {filteredDepartments.length === 0 && (
+                  <tr>
+                    <td colSpan="3" style={{ textAlign: 'center', padding: '3rem', opacity: 0.6 }}>
+                      No department records matching query.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </section>
+
+        <ConfirmModal
+          isOpen={!!deleteTargetId}
+          title="Delete Department?"
+          message="Are you sure you want to permanently remove this department record?"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTargetId(null)}
+        />
       </div>
     </div>
   );

@@ -12,8 +12,8 @@
 :root {
   --bg1: #2c1f1b;
   --bg2: #1e1e1e;
-  --accent-start: #f59e0b;
-  --accent-mid: #d97706;
+  --accent-start: #6C47FF;
+  --accent-mid: #5835E5;
   --accent-end: #3a3a3a;
 }
 
@@ -116,12 +116,12 @@ h1 {
   0%,
   100% {
     background-position: 0% center;
-    filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.1));
+    filter: drop-shadow(0 0 15px rgba(108, 71, 255, 0.15));
   }
 
   50% {
     background-position: 100% center;
-    filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.2));
+    filter: drop-shadow(0 0 30px rgba(108, 71, 255, 0.25));
   }
 }
 

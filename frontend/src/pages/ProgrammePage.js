@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { programmeService, departmentService } from "../services/api";
+import ConfirmModal from "../components/ConfirmModal";
 import "./MasterScreen.css";
 
 const ProgrammePage = () => {
@@ -12,6 +13,8 @@ const ProgrammePage = () => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: "", shortName: "", department: "" });
   const [editingId, setEditingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   useEffect(() => {
     if (user?.role === "SuperAdmin") fetchData();
@@ -24,8 +27,8 @@ const ProgrammePage = () => {
         programmeService.getAll(),
         departmentService.getAll(),
       ]);
-      setProgrammes(progRes.data);
-      setDepartments(deptRes.data);
+      setProgrammes(progRes.data || []);
+      setDepartments(deptRes.data || []);
       setError("");
     } catch (err) {
       setError("Data synchronization failed.");
@@ -61,16 +64,24 @@ const ProgrammePage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Securely delete this programme record?")) {
-      try {
-        await programmeService.delete(id);
-        fetchData();
-      } catch (err) {
-        setError("Deletion restricted by active dependencies.");
-      }
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+    try {
+      await programmeService.delete(deleteTargetId);
+      setDeleteTargetId(null);
+      fetchData();
+    } catch (err) {
+      setError("Deletion restricted by active dependencies.");
+      setDeleteTargetId(null);
     }
   };
+
+  const filteredProgrammes = programmes.filter(
+    (prog) =>
+      prog.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      prog.shortName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      prog.department?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) return <div className="loading">Initializing Academic Data...</div>;
 
@@ -133,9 +144,15 @@ const ProgrammePage = () => {
         )}
 
         <section className="master-table-card">
-          <div className="table-action-header">
-            <h3>Programme Registry</h3>
-            <span className="info-label">{programmes.length} Modules Active</span>
+          <div className="table-action-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+            <h3>Programme Registry ({filteredProgrammes.length})</h3>
+            <input
+              type="text"
+              placeholder="🔍 Search programme or department..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ maxWidth: '300px' }}
+            />
           </div>
           <div className="table-wrapper">
             <table className="standard-table">
@@ -148,23 +165,38 @@ const ProgrammePage = () => {
                 </tr>
               </thead>
               <tbody>
-                {programmes.map((prog) => (
+                {filteredProgrammes.map((prog) => (
                   <tr key={prog._id}>
                     <td style={{ fontWeight: 700 }}>{prog.name}</td>
-                    <td>{prog.shortName}</td>
+                    <td><span className="status-tag tag-progress">{prog.shortName}</span></td>
                     <td>{prog.department?.name || "N/A"}</td>
                     <td>
                       <div className="action-btn-group">
-                        <button className="btn-icon-only" onClick={() => handleEdit(prog)}>✎</button>
-                        <button className="btn-icon-only btn-delete-icon" onClick={() => handleDelete(prog._id)}>✕</button>
+                        <button className="btn-icon-only" onClick={() => handleEdit(prog)} title="Edit">✎</button>
+                        <button className="btn-icon-only btn-delete-icon" onClick={() => setDeleteTargetId(prog._id)} title="Delete">✕</button>
                       </div>
                     </td>
                   </tr>
                 ))}
+                {filteredProgrammes.length === 0 && (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: 'center', padding: '3rem', opacity: 0.6 }}>
+                      No programme records matching query.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </section>
+
+        <ConfirmModal
+          isOpen={!!deleteTargetId}
+          title="Delete Programme?"
+          message="Are you sure you want to permanently remove this academic programme record?"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTargetId(null)}
+        />
       </div>
     </div>
   );

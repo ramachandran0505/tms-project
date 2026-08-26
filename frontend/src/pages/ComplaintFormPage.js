@@ -45,10 +45,15 @@ const ComplaintFormPage = () => {
       if (!departmentId) { setBlocks([]); setBlockId(""); return; }
       setLoadingData(true);
       try {
-        const resp = await blockService.getAll({ departmentId });
-        setBlocks(resp.data || []);
+        let resp = await blockService.getAll({ departmentId });
+        let blockData = resp.data || [];
+        if (blockData.length === 0) {
+          const fallbackResp = await blockService.getAll();
+          blockData = fallbackResp.data || [];
+        }
+        setBlocks(blockData);
       } catch (err) {
-        setError("Structural block retrieval failed.");
+        console.error(err);
       } finally {
         setLoadingData(false);
       }
@@ -59,13 +64,18 @@ const ComplaintFormPage = () => {
 
   useEffect(() => {
     const fetchRooms = async () => {
-      if (!blockId) { setFilteredRooms([]); setRoomId(""); return; }
+      if (!blockId || blockId === "__general__") { setFilteredRooms([]); setRoomId(""); return; }
       setLoadingData(true);
       try {
-        const resp = await roomService.getAll({ blockId });
-        setFilteredRooms(resp.data || []);
+        let resp = await roomService.getAll({ blockId });
+        let roomData = resp.data || [];
+        if (roomData.length === 0) {
+          const fallbackResp = await roomService.getAll();
+          roomData = fallbackResp.data || [];
+        }
+        setFilteredRooms(roomData);
       } catch (err) {
-        setError("Facility directory access error.");
+        console.error(err);
       } finally {
         setLoadingData(false);
       }
@@ -97,7 +107,8 @@ const ComplaintFormPage = () => {
       const selectedBlock = blocks.find(b => b._id === blockId);
       const selectedRoom = filteredRooms.find(r => r._id === roomId);
 
-      const finalRoomNumber = roomId === "__manual__" ? customRoomNumber : selectedRoom?.roomNumber || "";
+      const finalBlockName = selectedBlock?.name || (blockId === "__general__" ? "General Block" : "Main Block");
+      const finalRoomNumber = roomId === "__manual__" ? customRoomNumber : selectedRoom?.roomNumber || customRoomNumber || "General Room";
       if (!finalRoomNumber) {
         setError("Valid facility identifier required.");
         setLoading(false);
@@ -106,8 +117,8 @@ const ComplaintFormPage = () => {
 
       const formData = new FormData();
       formData.append("departmentName", selectedDepartment?.name || "");
-      formData.append("programmeName", selectedBlock?.programme?.name || "");
-      formData.append("blockName", selectedBlock?.name || "");
+      formData.append("programmeName", selectedBlock?.programme?.name || "General Programme");
+      formData.append("blockName", finalBlockName);
       formData.append("roomNumber", finalRoomNumber);
       formData.append("complaintType", type);
       formData.append("remarks", remarks);
@@ -150,6 +161,7 @@ const ComplaintFormPage = () => {
                 <select value={blockId} onChange={(e) => setBlockId(e.target.value)} required disabled={!departmentId}>
                   <option value="">Select Block</option>
                   {blocks.map(b => <option key={b._id} value={b._id}>{b.name}</option>)}
+                  <option value="__general__">General / Other Block</option>
                 </select>
               </div>
             </div>
@@ -157,7 +169,7 @@ const ComplaintFormPage = () => {
             <div className="form-row">
               <div className="form-group">
                 <label>Facility / Room</label>
-                <select value={roomId} onChange={(e) => setRoomId(e.target.value)} disabled={!blockId} required>
+                <select value={roomId} onChange={(e) => setRoomId(e.target.value)} disabled={!departmentId} required>
                   <option value="">Select Room</option>
                   {filteredRooms.map(r => <option key={r._id} value={r._id}>{r.roomNumber}</option>)}
                   <option value="__manual__">Manual Entry / Other</option>

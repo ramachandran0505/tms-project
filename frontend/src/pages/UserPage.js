@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { userService, departmentService } from "../services/api";
+import ConfirmModal from "../components/ConfirmModal";
 import "./MasterScreen.css";
 
 const UserPage = () => {
@@ -21,6 +22,8 @@ const UserPage = () => {
     profileImage: "",
   });
   const [editingId, setEditingId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteTargetId, setDeleteTargetId] = useState(null);
 
   const roles = [
     "SuperAdmin", "User", "Networking Staff", "Plumber",
@@ -38,8 +41,8 @@ const UserPage = () => {
         userService.getAll(),
         departmentService.getAll(),
       ]);
-      setUsers(userRes.data);
-      setDepartments(deptRes.data);
+      setUsers(userRes.data || []);
+      setDepartments(deptRes.data || []);
       setError("");
     } catch (err) {
       setError("User directory synchronization failed.");
@@ -93,16 +96,25 @@ const UserPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = async (id) => {
-    if (window.confirm("Permanent revocation of this user identity?")) {
-      try {
-        await userService.delete(id);
-        fetchData();
-      } catch (err) {
-        setError("Revocation failed: Active administrative session.");
-      }
+  const confirmDelete = async () => {
+    if (!deleteTargetId) return;
+    try {
+      await userService.delete(deleteTargetId);
+      setDeleteTargetId(null);
+      fetchData();
+    } catch (err) {
+      setError("Revocation failed: Active administrative session.");
+      setDeleteTargetId(null);
     }
   };
+
+  const filteredUsers = users.filter(
+    (u) =>
+      u.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.role?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.department?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) return <div className="loading">Profiling User Directory...</div>;
 
@@ -182,7 +194,7 @@ const UserPage = () => {
                   placeholder={editingId ? "Leave blank to preserve" : "Enter robust key"}
                 />
               </div>
-              <div className="form-group">
+              <div className="form-group" style={{ gridColumn: '1 / -1' }}>
                 <label>Profile Image URL</label>
                 <input
                   type="text"
@@ -199,9 +211,15 @@ const UserPage = () => {
         )}
 
         <section className="master-table-card">
-          <div className="table-action-header">
-            <h3>User Registry</h3>
-            <span className="info-label">{users.length} Identities Online</span>
+          <div className="table-action-header" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+            <h3>User Registry ({filteredUsers.length})</h3>
+            <input
+              type="text"
+              placeholder="🔍 Search username, email, role, or unit..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{ maxWidth: '300px' }}
+            />
           </div>
           <div className="table-wrapper">
             <table className="standard-table">
@@ -216,7 +234,7 @@ const UserPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((u) => (
+                {filteredUsers.map((u) => (
                   <tr key={u._id}>
                     <td>
                       <div className="table-avatar">
@@ -230,21 +248,36 @@ const UserPage = () => {
                     <td style={{ fontWeight: 700 }}>{u.username}</td>
                     <td style={{ opacity: 0.8 }}>{u.email}</td>
                     <td>
-                      <span className={`status-tag tag-progress`}>{u.role}</span>
+                      <span className={`status-tag ${u.role === 'SuperAdmin' ? 'tag-completed' : 'tag-progress'}`}>{u.role}</span>
                     </td>
                     <td>{u.department?.name || "-"}</td>
                     <td>
                       <div className="action-btn-group">
-                        <button className="btn-icon-only" onClick={() => handleEdit(u)}>✎</button>
-                        <button className="btn-icon-only btn-delete-icon" onClick={() => handleDelete(u._id)}>✕</button>
+                        <button className="btn-icon-only" onClick={() => handleEdit(u)} title="Edit User">✎</button>
+                        <button className="btn-icon-only btn-delete-icon" onClick={() => setDeleteTargetId(u._id)} title="Delete User">✕</button>
                       </div>
                     </td>
                   </tr>
                 ))}
+                {filteredUsers.length === 0 && (
+                  <tr>
+                    <td colSpan="6" style={{ textAlign: 'center', padding: '3rem', opacity: 0.6 }}>
+                      No user identities matching query.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
         </section>
+
+        <ConfirmModal
+          isOpen={!!deleteTargetId}
+          title="Revoke User Identity?"
+          message="Are you sure you want to permanently remove this user account from the directory?"
+          onConfirm={confirmDelete}
+          onCancel={() => setDeleteTargetId(null)}
+        />
       </div>
     </div>
   );
